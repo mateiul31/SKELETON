@@ -1,0 +1,149 @@
+/***
+
+class ClasaBaza{
+
+    protected: -> ca sa le vada claseleDerivate
+
+        //date membre
+        int id;
+        string name;
+
+    public:
+        //Constructor implicit, nu e nevoie neaparat sa il scrieti, dar mai bine o faceti:
+        //2 OPTIUNi:
+            1)ClasaBaza(){}
+            2)ClasaBaza() = default;
+
+
+        //Constructor parametrizat
+        ClasaBaza(int id, string name = ''): id(id), name(name){}
+
+            //de ce am pus =''-> string name = '' -> daca nu dati nicio valoare pentru name:
+                    ClasaBaza ob = new ClasaBaza(1); //-> transmiteti doar id
+                                  -> ob.name va fi setat cu '';
+
+        //Destructor
+        ~ClasaBaza(){ cout<<"Destructor";} //->(e ceva optional, daca nu va cere in cerinta sa-l puneti)
+
+        //metode clasa baza
+
+    virtual int Metoda1(){
+	prelucram niste date, afisam ceva plm
+    }
+
+    //virtual ca sa puteti REDEFINI functia Metoda1() in claseleDerivate,
+    dar sa isi pastreze numele.
+
+    virtual void Afisare(){
+        cout<<dataMembra1<<" "<<dataMembra2; etc
+    } //va fi redefinita in claseleDerivate pentru ca vor avea date membre in plus de afisat
+}
+
+class ClasaDerivata: public ClasaBaza{
+    private:
+        //date membre proprii, nu tre sa rescrieti datele membre din clasa de baza(name, id)	
+	//pentru ca sunt mostenite in mod implicit
+
+    public:
+        //Constructor
+            ClasaDerivata(dateClasaBaza, dateClasaDerivata): ClasaBaza(dateClasaBaza), dateClasaDerivata(dateClasaDerivata){}
+
+        //metode:
+        //Aici scrieti getteri si setteri daca aveti nevoie de ei (pentru datele proprii, get si set din clasa de baza se mostenesc in mod implicit)
+	//Adica daca aveti in Clasa baza un int getId(){return this.id;}, nu trebuie implementat si aici, poate fi folosit direct pe un obiect de tip
+	//clasaDerivata
+
+        void Afisare(){ //o aveti cu virtual in clasa de baza, aici o redefiniti
+            //implementati ce vreti
+        }
+}
+
+MAIN:
+
+Declari array de obiecte de tipul ClasaBaza:
+
+    ClasaBaza **array = nullptr;
+    array = new ClasaBaza*[numar_obiecte_de_citit];
+
+
+Initializare obiecte si introducere in array:
+
+    for(int i=0; i<numar_obiecte_de_citit; i++){
+
+        *(card_array+(i)) = new ClasaMostenita(parametrii clasa baza, parametri clasa mostenita);
+    }
+
+
+Ca sa treci prin obiecte si sa gasesti obiect cu o caracteristica anume:
+
+    for(int i=0; i<numar_obiecte; i++){ //trecem prin array-ul de obiecte
+            if((*(array+i))->get_caracteristica() == caract_anume){ //daca gasim unul cu caracteristica cautata
+                //-> faci ce iti cere cerinta
+            }
+
+  Ce inseamna getter/setter?
+
+  ->getter: ca sa poti vedea datele private/protected din clasa
+
+        tipDateDeReturnat(int, string, bool etc) GetDate(){return this.DateDeReturnat}
+
+        Exemplu definire in clasa:
+            string getName(){return this->name;}
+
+        Utilizare in main:
+            string name = obiect->getName();
+            ->faci cu name ce vrei dupa
+
+    ->setter: ca sa poti modifica datele private/protected din clasa:
+
+            void setDate(tipDateDinClasa dateNoi){this.DateDinClasa = dateNoi;}
+
+
+        Exemplu definire in clasa:
+
+        void setName(newName){this.Name = newName;}
+
+        Utilizare in main:
+            -> presupunem ca un obiect Persoana are ca date un string 'nume_de_familie'
+            -> Persoana se casatoreste, isi schimba numele. Cum schimb numele din obiect?
+            -> obiect.setName(numeNou);
+            -> string verificareDacaEschimbat = obiect.getName();
+            -> verificareDacaEschimbat va avea valoarea numeNou;
+
+
+Dupa ce ai initializat obiectele si le-ai bagat in array, incepi si
+    faci exercitiile
+
+int stop = 0;
+int optiune;
+do{
+    cin >> optiune;
+    if(optiune == 1){}
+
+        Aveti 2 optiuni:
+            -> fie apelati o functie din clasa pe obiect care va rezolva exercitiul
+                Adica cum a facut Radu
+
+            -> fie rezolvati aici asa:
+                1) Va luati datele in variabile cu getteri:
+                    var variabila1 = obiect.getVar1()
+                    var variabila2 = obiect.getVar2()
+                    ....
+                    le prelucrati, le verificati, le invartiti etc..
+                    ....
+                2)  Va actualizati datele din obiect cu setteri(daca e nevoie)
+                        obiect.SetVar1(Var1ActualizataDupaPrelucrare)
+
+                3) Afisati ceva daca e nevoie
+
+
+    if(optiune == 2){}
+    if(optiune == 3){}
+    if(optiune == 4){}
+    if(optiune == 'exit'){stop = 1;}
+}while(!stop)
+
+return 0;
+/
+
+
